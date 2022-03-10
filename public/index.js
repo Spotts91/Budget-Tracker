@@ -39,3 +39,59 @@ function populateTable() {
     });
 }
 
+function populateChart() {
+    // copy aray and reverse it
+    const reversed = transaction.slice().reverse();
+    let sum = 0;
+
+    // create date labels for chart
+    const labels = reversed.map(t => {
+        const date = new Date(t.date);
+        return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+    });
+
+    // create incremental values for chart
+    const data = reversed.map(t=> {
+        sum += parseInt(t.value);
+        return sum;
+    });
+
+    //remove old chart if it exists
+    if (myChart) {
+        myChart.destroy();
+    }
+
+    const ctx = document.getElementById("my-chart").getContext("2d");
+
+    myChart = new CharacterData(ctx, {
+        type: "line",
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: "Total Over Time",
+                    fill: true,
+                    backgroundColor: "#6666ff",
+                    data
+                }
+            ]
+        }
+    });
+}
+
+function sendTransaction(isAdding) {
+    const nameEl = document.querySelector("#t-name");
+    const emountEl = document.querySelector("t-amount");
+    const errorEl = document.querySelector("form.error");
+
+    //validate form
+    if (nameEl.value === "" || amountEl.value === "") {
+        errorEl.textContent = "Missing information";
+        return;
+    } else {
+        errorEl.textContent = "";
+    }
+
+    // create record
+}
+
