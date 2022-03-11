@@ -1,6 +1,6 @@
-const { populate } = require("../models/transaction");
+//const { populate } = require("../models/transaction");
 
-letTransactions = [];
+let transactions = [];
 let myChart;
 
 fetch("/api/transaction")
@@ -32,7 +32,7 @@ function populateTable() {
         const tr = document.createElement("tr");
         tr.innerHTML = `
         <td>${transaction.name}</td>
-        <td>${transaction.vaule}</td>
+        <td>${transaction.value}</td>
     `;
 
     tbody.appendChild(tr);
@@ -41,7 +41,7 @@ function populateTable() {
 
 function populateChart() {
     // copy aray and reverse it
-    const reversed = transaction.slice().reverse();
+    const reversed = transactions.slice().reverse();
     let sum = 0;
 
     // create date labels for chart
@@ -61,9 +61,9 @@ function populateChart() {
         myChart.destroy();
     }
 
-    const ctx = document.getElementById("my-chart").getContext("2d");
+    const ctx = document.getElementById("myChart").getContext("2d");
 
-    myChart = new CharacterData(ctx, {
+    myChart = new Chart(ctx, {
         type: "line",
         data: {
             labels,
@@ -81,8 +81,8 @@ function populateChart() {
 
 function sendTransaction(isAdding) {
     const nameEl = document.querySelector("#t-name");
-    const emountEl = document.querySelector("t-amount");
-    const errorEl = document.querySelector("form.error");
+    const amountEl = document.querySelector("#t-amount");
+    const errorEl = document.querySelector(".error");
 
     //validate form
     if (nameEl.value === "" || amountEl.value === "") {
@@ -151,8 +151,8 @@ document.querySelector("#sub-btn").addEventListener("click", function(event) {
     sendTransaction(false);
 });
 
-document.querySelector("#del-btn").addEventListener("click", function(event) {
-    event.preventDefault();
-    deletePending();
-});
+//document.querySelector("#del-btn").addEventListener("click", function(event) {
+  //  event.preventDefault();
+    //deletePending();
+//});
 
